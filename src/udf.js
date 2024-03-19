@@ -45,42 +45,65 @@ class UDF {
       console.error(err);
       setTimeout(() => {
         this.loadSymbols();
-      }, 100000);
+      }, 1000);
     });
-    this.symbols = promise.then((info) => {
-      return info.symbols.map((symbol) => {
-        return {
-          symbol: symbol.symbol,
-          ticker: symbol.symbol,
-          name: symbol.symbol,
-          full_name: symbol.symbol,
-          description: `${symbol.baseAsset} / ${symbol.quoteAsset}`,
-          exchange: "BINANCE",
-          listed_exchange: "BINANCE",
-          type: "crypto",
-          currency_code: symbol.quoteAsset,
-          session: "24x7",
-          timezone: "UTC",
-          minmovement: 1,
-          minmov: 1,
-          minmovement2: 0,
-          minmov2: 0,
-          pricescale: pricescale(symbol),
-          supported_resolutions: this.supportedResolutions,
-          has_intraday: true,
-          has_daily: true,
-          has_weekly_and_monthly: true,
-          data_status: "streaming",
-        };
+
+    promise
+      .then((info) => {
+        console.log("Info:", info); // Add this line for debugging
+        if (!info || !info.symbols) {
+          console.error("No symbols found in the response.");
+          return [];
+        }
+        return info.symbols.map((symbol) => {
+          return {
+            symbol: symbol.symbol,
+            ticker: symbol.symbol,
+            name: symbol.symbol,
+            full_name: symbol.symbol,
+            description: `${symbol.baseAsset} / ${symbol.quoteAsset}`,
+            exchange: "BINANCE",
+            listed_exchange: "BINANCE",
+            type: "crypto",
+            currency_code: symbol.quoteAsset,
+            session: "24x7",
+            timezone: "UTC",
+            minmovement: 1,
+            minmov: 1,
+            minmovement2: 0,
+            minmov2: 0,
+            pricescale: pricescale(symbol),
+            supported_resolutions: this.supportedResolutions,
+            has_intraday: true,
+            has_daily: true,
+            has_weekly_and_monthly: true,
+            data_status: "streaming",
+          };
+        });
+      })
+      .then((symbols) => {
+        console.log("Symbols:", symbols); // Add this line for debugging
+        this.symbols = symbols;
+      })
+      .catch((error) => {
+        console.error("Error while loading symbols:", error);
       });
-    });
-    this.allSymbols = promise.then((info) => {
-      let set = new Set();
-      for (const symbol of info.symbols) {
-        set.add(symbol.symbol);
-      }
-      return set;
-    });
+
+    promise
+      .then((info) => {
+        let set = new Set();
+        for (const symbol of info.symbols) {
+          set.add(symbol.symbol);
+        }
+        return set;
+      })
+      .then((allSymbols) => {
+        console.log("All Symbols:", allSymbols); // Add this line for debugging
+        this.allSymbols = allSymbols;
+      })
+      .catch((error) => {
+        console.error("Error while loading all symbols:", error);
+      });
   }
 
   async checkSymbol(symbol) {
