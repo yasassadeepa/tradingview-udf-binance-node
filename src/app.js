@@ -4,7 +4,7 @@ const app = express();
 const cors = require("cors");
 
 const corsOptions = {
-  origin: "http://127.0.0.1:5500", // Allow requests from this origin
+  origin: "http://localhost:3000", // Allow requests from this origin
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
