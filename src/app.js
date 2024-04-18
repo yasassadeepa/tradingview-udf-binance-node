@@ -4,11 +4,7 @@ const app = express();
 const cors = require("cors");
 
 const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "https://crypto-screener-zeta.vercel.app",
-    "https://trading-platform-next.vercel.app",
-  ], // Allow requests from this origin
+  origin: "*", // Allow requests from all origins
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
