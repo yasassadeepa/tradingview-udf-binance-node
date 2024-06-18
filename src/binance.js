@@ -9,7 +9,7 @@ module.exports = class Binance {
      * @returns {Promise} Response promise.
      */
     exchangeInfo() {
-        return this.request('/api/v1/exchangeInfo')
+        return this.request('/fapi/v1/exchangeInfo')
     }
 
     /**
@@ -22,7 +22,7 @@ module.exports = class Binance {
      * @returns {Promise} Resopnse promise.
      */
     klines(symbol, interval, startTime, endTime, limit) {
-        return this.request('/api/v1/klines', { qs: { symbol, interval, startTime, endTime, limit } })
+        return this.request('/fapi/v1/klines', { qs: { symbol, interval, startTime, endTime, limit } })
     }
 
     /**
@@ -33,7 +33,7 @@ module.exports = class Binance {
      */
     request(path, options) {
         return new Promise((resolve, reject) => {
-            request('https://api.binance.com' + path, options, (err, res, body) => {
+            request('https://fapi.binance.com' + path, options, (err, res, body) => {
                 if (err) {
                     return reject(err)
                 }
